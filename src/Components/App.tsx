@@ -21,7 +21,6 @@ const App: React.FC = () => {
       <Suspense fallback={<div>Loading...</div>}>
         <Layout className="layout">
           <Header>
-            <div className="logo" />
             <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["2"]}>
               <Menu.Item key="home">
                 <Link to="/">Home</Link>
@@ -34,8 +33,8 @@ const App: React.FC = () => {
               </Menu.Item>
             </Menu>
           </Header>
-          <Content style={{ padding: "45px" }}>
-            {offline ? <Alert message="You're offline now" type="error" showIcon />:<Alert message="You're online now" type="success" showIcon />}
+          {offline ? <Alert message="You're offline now" type="error" showIcon />:<Alert message="You're online now" type="success" showIcon />}
+          <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
             <div className="site-layout-content">
               <Switch>
                 <Route path="/todos">
@@ -51,7 +50,7 @@ const App: React.FC = () => {
             </div>
           </Content>
           <Footer style={{ textAlign: "center" }}>
-            Ant Design ©2018 Created by Ant UED
+            React Todo PWA @2020 Ravuthz
           </Footer>
         </Layout>
       </Suspense>

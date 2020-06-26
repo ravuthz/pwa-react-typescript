@@ -1,6 +1,7 @@
 import { FontSizeOutlined } from "@ant-design/icons";
-import { Button, Form, Input } from "antd";
+import { Form, Input } from "antd";
 import React, { useState } from "react";
+
 import { TodoService } from "../../services/todo.service";
 
 const TodoForm: React.FC = () => {
@@ -20,11 +21,11 @@ const TodoForm: React.FC = () => {
   }
 
   return (
-    <React.Fragment>
+    <div className="todo-form-container">
       <Form
         form={form}
         name="basic"
-        layout="inline"
+        layout="vertical"
         initialValues={{ title: "", completed: false }}
         onFinish={onSuccess}
         onFinishFailed={onFailure}
@@ -35,14 +36,8 @@ const TodoForm: React.FC = () => {
         >
           <Input allowClear size="large" prefix={<FontSizeOutlined />} />
         </Form.Item>
-        
-        <Form.Item>
-          <Button size="large" type="primary" htmlType="submit">
-            Add Todo
-          </Button>
-        </Form.Item>
       </Form>
-    </React.Fragment>
+    </div>
   );
 };
 

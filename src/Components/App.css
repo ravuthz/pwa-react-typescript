@@ -2,24 +2,25 @@
 
 .site-layout-content {
   background: #fff;
-  padding: 24px;
-  /* min-height: 280px; */
-  /* Padding, Header, BreadCrumbs, Footer */
-  /* 24px + 64px + 21.6px = 109.6 + 69.6px*/
-  height: calc(100vh - 190px);
+  padding: 10px 0px 0px 0px;
+  margin: 0px;
+  min-height: 69.2vh;
 }
 
-.logo {
-  width: 120px;
-  height: 31px;
-  background: rgba(255, 255, 255, 0.2);
-  margin: 16px 24px 16px 0;
-  float: left;
-}
-
+.todo-form-container,
 .todo-list-container {
-  border: 1px solid #e8e8e8;
-  /* border-radius: 4px; */
-  overflow: auto;
-  height: 300px;
+  width: 100%;
+}
+
+.todo-form-container .ant-form { 
+  padding-left: 1.2em;
+  padding-right: 1.2em;
+}
+
+.todo-list-container .ant-list {
+  margin: 1.2em;
+}
+
+.ant-typography.page-header-title {
+  text-align: center;
 }

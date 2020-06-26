@@ -2,7 +2,9 @@ import { List, Tag, Button, Space, Modal } from "antd";
 import React, { useState, useEffect } from "react";
 import {
   QuestionCircleOutlined,
-  //   ExclamationCircleOutlined,
+  DeleteOutlined,
+  BorderOutlined,
+  CheckSquareOutlined,
 } from "@ant-design/icons";
 import { todos } from "../../services/firebase";
 import { TodoService } from "../../services/todo.service";
@@ -13,14 +15,15 @@ const TodoList: React.FC = () => {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const unsubscribe = todos.orderBy("created_at", "desc")
-    .onSnapshot((querySnapshot) => {
-      const items: any = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setData(items);
-    });
+    const unsubscribe = todos
+      .orderBy("created_at", "desc")
+      .onSnapshot((querySnapshot) => {
+        const items: any = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setData(items);
+      });
     return () => unsubscribe();
   }, []);
 
@@ -69,16 +72,21 @@ const TodoList: React.FC = () => {
               title={<a href="https://ant.design">{item.title}</a>}
             />
             <Space>
-              <Button size="small" danger onClick={() => onDeleteClick(item)}>
-                DELETE
-              </Button>
               <Button
+                type="link"
                 size="small"
-                type="primary"
+                danger
+                icon={<DeleteOutlined />}
+                onClick={() => onDeleteClick(item)}
+              />
+              <Button
+                type="link"
+                size="small"
+                icon={
+                  item.completed ? <BorderOutlined /> : <CheckSquareOutlined />
+                }
                 onClick={() => onToggleClick(item)}
-              >
-                TOGGLE
-              </Button>
+              />
               {item.completed ? (
                 <Tag color="success">&nbsp;COMPLETED&nbsp;</Tag>
               ) : (

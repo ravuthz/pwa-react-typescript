@@ -1,14 +1,18 @@
 import React from "react";
 import TodoForm from "./TodoForm";
 import TodoList from "./TodoList";
+import { Typography } from "antd";
+
+const { Title } = Typography;
 
 const Todos: React.FC = () => (
-  <div>
-    <h1>This is a Todos</h1>
+  <>
+    <Title level={3} className="page-header-title">
+      Todo List
+    </Title>
     <TodoForm></TodoForm>
-    <br/>
     <TodoList></TodoList>
-  </div>
+  </>
 );
 
 export default Todos;

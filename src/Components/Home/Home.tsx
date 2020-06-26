@@ -1,7 +1,10 @@
 import React from "react";
+import { Typography } from "antd";
+
+const { Title } = Typography;
 
 const Home: React.FC = () => (
-  <h1>Welcome to your PWA!</h1>
+  <Title level={3} className="page-header-title">Welcome to your PWA!</Title>
 );
 
 export default Home;
