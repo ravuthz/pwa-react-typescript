@@ -1,9 +1,9 @@
-import React, { lazy, Suspense, useState } from "react";
+import React, { lazy, Suspense } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { Layout, Menu, Alert } from "antd";
 
 import "./App.css";
-import { useWindowEvent } from "../hook";
+import { useNetwork } from "../hook";
 
 const { Header, Content, Footer } = Layout;
 
@@ -12,9 +12,7 @@ const About = lazy(() => import("./About/About"));
 const Todos = lazy(() => import("./Todos/Todos"));
 
 const App: React.FC = () => {
-  const [offline, setOffline] = useState(false);
-  useWindowEvent("online", () => setOffline(false));
-  useWindowEvent("offline", () => setOffline(true));
+  const { isOnline } = useNetwork();
 
   return (
     <Router>
@@ -33,8 +31,12 @@ const App: React.FC = () => {
               </Menu.Item>
             </Menu>
           </Header>
-          {offline ? <Alert message="You're offline now" type="error" showIcon />:<Alert message="You're online now" type="success" showIcon />}
-          <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
+          {isOnline ? (
+            <Alert message="You're online now" type="success" showIcon />
+          ) : (
+            <Alert message="You're offline now" type="error" showIcon />
+          )}
+          <Content style={{ margin: "24px 16px 0", overflow: "initial" }}>
             <div className="site-layout-content">
               <Switch>
                 <Route path="/todos">

@@ -12,15 +12,18 @@ const config = {
 };
 
 firebase.initializeApp(config);
-
 firebase.firestore().settings({
   cacheSizeBytes: firebase.firestore.CACHE_SIZE_UNLIMITED
 });
-
 firebase.firestore().enablePersistence();
 
-export const firestore = firebase.firestore();
+firebase.firestore().disableNetwork().then((res) => {
+  console.log('disableNetwork: ', res);
+});
+firebase.firestore().enableNetwork().then((res) => {
+  console.log('enableNetwork: ', res);
+});
 
-export const todos = firestore.collection("todos");
+export const todos = firebase.firestore().collection("todos");
 
 export default firebase;
