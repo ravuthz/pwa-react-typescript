@@ -22,3 +22,25 @@ export const useNetwork = () => {
 
   return { isOnline };
 };
+
+export const useJsonFetch = (url: string, options: any = {}) => {
+  const [response, setResponse] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const res = await fetch(url, options);
+        const json = await res.json();
+        setResponse(json);
+        setLoading(false);
+      } catch (error) {
+        setError(error);
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+  return { response, loading, error };
+};

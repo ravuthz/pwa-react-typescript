@@ -15,26 +15,15 @@ const TodoList: React.FC = () => {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    // const unsubscribe = todos
-    //   .orderBy("created_at", "desc")
-    //   .onSnapshot((querySnapshot) => {
-    //     const items: any = querySnapshot.docs.map((doc) => ({
-    //       id: doc.id,
-    //       ...doc.data(),
-    //     }));
-    //     setData(items);
-    //   });
-
     const unsubscribe = todos
       .orderBy("created_at", "desc")
       .onSnapshot({ includeMetadataChanges: true }, function(snapshot) {
       snapshot.docChanges().forEach(function(change) {
-        if (change.type === "added") {
-            console.log("New city: ", change.doc.data());
-        }
-        var source = snapshot.metadata.fromCache ? "CACHE" : "SERVER";
-        console.log(`Data came from ${source}`);
-
+        // if (change.type === "added") {
+        //     console.log("New city: ", change.doc.data());
+        // }
+        // var source = snapshot.metadata.fromCache ? "CACHE" : "SERVER";
+        // console.log(`Data came from ${source}`);
         const items: any = snapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),

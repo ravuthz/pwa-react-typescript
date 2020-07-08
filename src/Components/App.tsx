@@ -4,6 +4,7 @@ import { Layout, Menu, Alert } from "antd";
 
 import "./App.css";
 import { useNetwork } from "../hook";
+import PhotoPage from './Photos/PhotoPage';
 
 const { Header, Content, Footer } = Layout;
 
@@ -29,24 +30,30 @@ const App: React.FC = () => {
               <Menu.Item key="todos">
                 <Link to="/todos">Todos</Link>
               </Menu.Item>
+              <Menu.Item key="photos">
+                <Link to="/photos">Photos</Link>
+              </Menu.Item>
             </Menu>
           </Header>
           {isOnline ? (
-            <Alert message="You're online now" type="success" showIcon />
+            <Alert message="You're online now" type="success" showIcon/>
           ) : (
-            <Alert message="You're offline now" type="error" showIcon />
+            <Alert message="You're offline now" type="error" showIcon/>
           )}
           <Content style={{ margin: "24px 16px 0", overflow: "initial" }}>
             <div className="site-layout-content">
               <Switch>
+                <Route path="/photos">
+                  <PhotoPage/>
+                </Route>
                 <Route path="/todos">
-                  <Todos />
+                  <Todos/>
                 </Route>
                 <Route path="/about">
-                  <About />
+                  <About/>
                 </Route>
                 <Route exact path="/">
-                  <Home />
+                  <Home/>
                 </Route>
               </Switch>
             </div>
