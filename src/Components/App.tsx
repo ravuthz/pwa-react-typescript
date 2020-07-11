@@ -1,10 +1,11 @@
 import React, { lazy, Suspense } from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { Layout, Menu, Alert } from "antd";
+import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
+import { Alert, Layout, Menu } from "antd";
 
 import "./App.css";
-import { useNetwork } from "../hook";
+import { useNetwork } from "../hooks/hook";
 import PhotoPage from './Photos/PhotoPage';
+import { useSelector } from 'react-redux';
 
 const { Header, Content, Footer } = Layout;
 
@@ -14,6 +15,30 @@ const Todos = lazy(() => import("./Todos/Todos"));
 
 const App: React.FC = () => {
   const { isOnline } = useNetwork();
+
+  const isServiceWorkerInitialized = useSelector<any>(
+    state => state.serviceWorkerInitialized
+  );
+
+  const isServiceWorkerUpdated = useSelector<any>(
+    state => state.serviceWorkerUpdated
+  );
+
+  const serviceWorkerRegistration: any = useSelector<any>(
+    state => state.serviceWorkerRegistration,
+  );
+
+  const updateServiceWorker = () => {
+    const registrationWaiting = serviceWorkerRegistration.waiting;
+    if (registrationWaiting) {
+      registrationWaiting.postMessage({ type: 'SKIP_WAITING' });
+      registrationWaiting.addEventListener('statechange', (event: any) => {
+        if (event.target.state === 'activated') {
+          window.location.reload();
+        }
+      });
+    }
+  };
 
   return (
     <Router>
@@ -35,6 +60,17 @@ const App: React.FC = () => {
               </Menu.Item>
             </Menu>
           </Header>
+          {isServiceWorkerInitialized && (
+            <Alert message="Page has been saved for offline use" type="success" showIcon/>
+          )}
+          {isServiceWorkerUpdated && (
+            <Alert
+              message="There is a new version available."
+              type="success" showIcon
+              closeText="Update Now"
+              onClose={updateServiceWorker}
+            />
+          )}
           {isOnline ? (
             <Alert message="You're online now" type="success" showIcon/>
           ) : (

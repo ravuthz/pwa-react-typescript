@@ -11,13 +11,19 @@
     "@types/node": "^12.0.0",
     "@types/react": "^16.9.0",
     "@types/react-dom": "^16.9.0",
+    "@types/react-redux": "^7.1.9",
     "@types/react-router-dom": "^5.1.5",
     "antd": "^4.3.5",
     "firebase": "^7.15.5",
+    "idb-keyval": "^3.2.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-redux": "^7.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
+    "redux": "^4.0.5",
+    "serve": "^11.3.2",
+    "swr": "^0.2.3",
     "typescript": "~3.7.2"
   },
   "scripts": {
@@ -25,7 +31,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "deploy": "yarn run build && firebase deploy"
+    "deploy": "yarn run build && firebase deploy",
+    "deploy:local": "yarn run build && serve -s build"
   },
   "eslintConfig": {
     "extends": "react-app"
