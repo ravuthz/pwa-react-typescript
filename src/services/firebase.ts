@@ -12,16 +12,21 @@ const config = {
 };
 
 firebase.initializeApp(config);
+
 firebase.firestore().settings({
   cacheSizeBytes: firebase.firestore.CACHE_SIZE_UNLIMITED
 });
-firebase.firestore().enablePersistence();
+
+firebase.firestore().enablePersistence().then((res) => {
+  console.log('firestore().enablePersistence(): ', res);
+});
 
 firebase.firestore().disableNetwork().then((res) => {
-  console.log('disableNetwork: ', res);
+  console.log('firestore().disableNetwork(): ', res);
 });
+
 firebase.firestore().enableNetwork().then((res) => {
-  console.log('enableNetwork: ', res);
+  console.log('firestore().enableNetwork(): ', res);
 });
 
 export const todos = firebase.firestore().collection("todos");

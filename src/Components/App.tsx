@@ -6,6 +6,7 @@ import "./App.css";
 import { useNetwork } from "../hooks/hook";
 import PhotoPage from './Photos/PhotoPage';
 import { useSelector } from 'react-redux';
+import ImagePage from './Images/ImagePage';
 
 const { Header, Content, Footer } = Layout;
 
@@ -58,6 +59,9 @@ const App: React.FC = () => {
               <Menu.Item key="photos">
                 <Link to="/photos">Photos</Link>
               </Menu.Item>
+              <Menu.Item key="images">
+                <Link to="/images">Images</Link>
+              </Menu.Item>
             </Menu>
           </Header>
           {isServiceWorkerInitialized && (
@@ -79,6 +83,9 @@ const App: React.FC = () => {
           <Content style={{ margin: "24px 16px 0", overflow: "initial" }}>
             <div className="site-layout-content">
               <Switch>
+                <Route path="/images">
+                  <ImagePage/>
+                </Route>
                 <Route path="/photos">
                   <PhotoPage/>
                 </Route>

@@ -31,16 +31,16 @@ ReactDOM.render(
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.register({
-  onSuccess: (registration) => {
-    console.log('serviceWorker.onSuccess: ', registration);
-    store.dispatch({ type: SW_INIT });
-  },
-  onUpdate: registration => {
-    console.log('serviceWorker.onUpdate: ', registration);
-    store.dispatch({ type: SW_UPDATE, payload: registration })
-  },
-});
+// serviceWorker.register({
+//   onSuccess: (registration) => {
+//     console.log('serviceWorker.onSuccess: ', registration);
+//     store.dispatch({ type: SW_INIT });
+//   },
+//   onUpdate: registration => {
+//     console.log('serviceWorker.onUpdate: ', registration);
+//     store.dispatch({ type: SW_UPDATE, payload: registration })
+//   },
+// });
 
 // if (!localStorage.getItem("notification-token")) {
 //   askPermissionToRecieveNotifications();

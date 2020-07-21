@@ -39,5 +39,28 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <script>
+      const isProduction = ('%NODE_ENV%' === 'production');
+      if (isProduction && 'serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js').then(() => {
+          navigator.serviceWorker.onmessage((event) => {
+            console.log('navigator.serviceWorker.onmessage: ', event);
+          });
+
+          const channel = new BroadcastChannel('service-worker-chanel');
+          channel.onmessage = (message) => {
+            console.log('message: ', message);
+            if (message.data.promptToReload) {
+              channel.postMessage({skipWaiting: true});
+            }
+          }
+        });
+
+        navigator.serviceWorker.addEventListener('controllerchange', function () {
+          console.log('controllerchange');
+          window.location.reload()
+        })
+      }
+    </script>
   </body>
 </html>

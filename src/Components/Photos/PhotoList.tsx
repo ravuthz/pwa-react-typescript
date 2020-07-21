@@ -1,7 +1,7 @@
 import React from "react";
 import { Table } from 'antd';
 import Tooltip from 'antd/lib/tooltip';
-import { useJsonFetch, useSwrFetch } from '../../hooks/hook';
+import { useJsonFetch } from '../../hooks/hook';
 
 const columns: any[] = [
   {
@@ -52,7 +52,11 @@ const PHOTO_URI = 'https://jsonplaceholder.typicode.com/photos';
 
 const PhotoList: React.FC = () => {
   const { response, loading, error } = useJsonFetch(PHOTO_URI);
-  // const { } = useSwrFetch();
+  const pagination: any = {
+    pageSizeOptions: [
+      10, 20, 50, 100, 1000, 10000
+    ]
+  };
 
   if (error) {
     console.log("Error: ", error);
@@ -60,7 +64,7 @@ const PhotoList: React.FC = () => {
 
   return (
     <div className="todo-list-container">
-      <Table loading={loading} dataSource={response || []} columns={columns}/>;
+      <Table loading={loading} dataSource={response || []} columns={columns} pagination={pagination}/>;
     </div>
   );
 };

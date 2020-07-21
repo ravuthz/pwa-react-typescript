@@ -28,14 +28,14 @@ export const useNetwork = () => {
 };
 
 export const useJsonFetch = (url: string, options: any = {}) => {
-  const [response, setResponse] = useState(null);
+  const [response, setResponse] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   useEffect(() => {
+    if (!url) {
+      return;
+    }
     const fetchData = async () => {
-      if (!url) {
-        return;
-      }
       try {
         setLoading(true);
         const res = await fetch(url, options);
@@ -56,8 +56,7 @@ export const useSwrFetch = (path: string) => {
   if (!path) {
     throw new Error('Path is required')
   }
-  const { data, error } = useSwr(path)
-  return { data, error }
+  return useSwr(path);
 }
 
 export function usePersistedState<TState>(keyToPersistWith: string, defaultState: TState) {
