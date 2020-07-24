@@ -1,0 +1,66 @@
+import Axios from "axios";
+
+const USER_KEY = 'user';
+const BASE_API_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:8000/api';
+
+const axios = Axios.create({
+  // timeout: 1000,
+  baseURL: BASE_API_URL,
+  headers: {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
+  }
+});
+
+// axios.interceptors.request.use((config) => {
+//   console.log('axios.interceptors.request: ', config);
+//   return config;
+// });
+//
+// axios.interceptors.response.use((response) => {
+//   console.log('axios.interceptors.response: ', response);
+//   return response;
+// });
+
+const setUser = (data: any) => {
+  const user = data ? JSON.stringify(data) : '';
+  localStorage.setItem(USER_KEY, user);
+};
+
+const getUser = () => {
+  const user = localStorage.getItem(USER_KEY);
+  return user ? JSON.parse(user) : {};
+}
+
+const delUser = () => {
+  localStorage.removeItem(USER_KEY);
+}
+
+const authUpdate = () => {
+  const user = getUser();
+  if (user && user.token_type && user.access_token) {
+    axios.defaults.headers.common['Authorization'] = `${user.token_type} ${user.access_token}`;
+  } else {
+    delete axios.defaults.headers.common['Authorization'];
+  }
+}
+
+const authHeader = () => {
+  const user = getUser();
+  if (user && user.token_type && user.access_token) {
+    return { 'Authorization': `${user.token_type} ${user.access_token}` }
+  } else {
+    return {};
+  }
+}
+
+export default axios;
+export {
+  USER_KEY,
+  BASE_API_URL,
+  getUser,
+  setUser,
+  delUser,
+  authHeader,
+  authUpdate
+}

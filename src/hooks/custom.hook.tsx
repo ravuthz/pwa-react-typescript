@@ -2,8 +2,6 @@ import { useCallback, useEffect, useState } from "react";
 import { get, set } from "idb-keyval";
 import useSwr from 'swr';
 
-export const baseUrl = 'https://jsonplaceholder.typicode.com/';
-
 export const useWindowEvent = (event: any, callback: any) => {
   useEffect(() => {
     window.addEventListener(event, callback);
@@ -22,7 +20,7 @@ export const useNetwork = () => {
       window.removeEventListener("online", updateNetwork);
       window.removeEventListener("offline", updateNetwork);
     };
-  });
+  }, [isOnline]);
 
   return { isOnline };
 };
@@ -48,7 +46,7 @@ export const useJsonFetch = (url: string, options: any = {}) => {
       }
     };
     fetchData();
-  }, [url]);
+  }, [url, options]);
   return { response, loading, error };
 };
 

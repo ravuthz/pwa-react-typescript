@@ -5,14 +5,14 @@ import { Typography } from "antd";
 
 const { Title } = Typography;
 
-const Todos: React.FC = () => (
+const TodoPage: React.FC = () => (
   <>
     <Title level={3} className="page-header-title">
       Todo List
     </Title>
-    <TodoForm></TodoForm>
-    <TodoList></TodoList>
+    <TodoForm/>
+    <TodoList/>
   </>
 );
 
-export default Todos;
+export default TodoPage;

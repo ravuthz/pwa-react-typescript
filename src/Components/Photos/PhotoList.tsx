@@ -1,7 +1,7 @@
 import React from "react";
 import { Table } from 'antd';
 import Tooltip from 'antd/lib/tooltip';
-import { useJsonFetch } from '../../hooks/hook';
+import { useJsonFetch } from '../../hooks/custom.hook';
 
 const columns: any[] = [
   {
@@ -51,17 +51,12 @@ const columns: any[] = [
 const PHOTO_URI = 'https://jsonplaceholder.typicode.com/photos';
 
 const PhotoList: React.FC = () => {
-  const { response, loading, error } = useJsonFetch(PHOTO_URI);
+  const { response, loading } = useJsonFetch(PHOTO_URI);
   const pagination: any = {
     pageSizeOptions: [
       10, 20, 50, 100, 1000, 10000
     ]
   };
-
-  if (error) {
-    console.log("Error: ", error);
-  }
-
   return (
     <div className="todo-list-container">
       <Table loading={loading} dataSource={response || []} columns={columns} pagination={pagination}/>;

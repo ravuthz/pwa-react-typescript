@@ -1,0 +1,24 @@
+.login-container {
+    background-color: lightslategrey;
+    height: 100vh;
+}
+
+.login-card {
+    margin-top: 5em;
+}
+
+.login-form {
+    height: auto;
+}
+
+.login-form-forgot {
+    float: right;
+}
+
+.ant-col-rtl .login-form-forgot {
+    float: left;
+}
+
+.login-form-button {
+    width: 100%;
+}

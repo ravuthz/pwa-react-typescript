@@ -1,0 +1,17 @@
+.layout-wrapper {
+
+}
+
+.layout-wrapper .content-wrapper {
+    margin: 4px 16px 0;
+    overflow: initial;
+    border-radius: 40px;
+}
+
+.layout-wrapper .content {
+    margin-top: 1em;
+}
+
+.layout-wrapper Footer {
+    text-align: center;
+}
