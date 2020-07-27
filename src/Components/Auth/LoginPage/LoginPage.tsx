@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 import { Button, Card, Checkbox, Col, Form, Input, Row } from 'antd';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 
 import './LoginPage.css';
 import AuthService from '../../../services/auth.service';
+import { useAuthCtx } from '../../../context/auth';
 
 const rowGutter = {
   xs: 16, sm: 16, md: 24, lg: 24, xl: 32, xxl: 32
@@ -19,20 +20,29 @@ const colGrid = {
   xxl: { offset: 8, span: 8 },
 }
 
+const initialForm = {
+  username: 'adminz',
+  password: '123123',
+  remember: false,
+};
+
 const LoginPage: React.FC = () => {
   const history = useHistory();
-  const [formValue, setFormValue] = useState<any>({
-    username: 'adminz',
-    password: '123123',
-    remember: false,
-  });
+  const { setUser, authenticated, setAuthenticated } = useAuthCtx();
+  const [formValue, setFormValue] = useState<any>(initialForm);
 
   const onFinish = (data: any) => {
     setFormValue(data);
     AuthService.login(data).then(res => {
+      setUser(res);
+      setAuthenticated(true);
       history.push('/');
     });
   };
+
+  if (authenticated) {
+    return <Redirect to="/?logged-in"/>
+  }
 
   return (
     <div className="login-container">
@@ -66,10 +76,6 @@ const LoginPage: React.FC = () => {
                 <Form.Item name="remember" valuePropName="checked" noStyle>
                   <Checkbox>Remember me</Checkbox>
                 </Form.Item>
-
-                <a className="login-form-forgot" href="">
-                  Forgot password
-                </a>
               </Form.Item>
 
               <Form.Item>
@@ -81,7 +87,6 @@ const LoginPage: React.FC = () => {
           </Card>
         </Col>
       </Row>
-
     </div>
   );
 };

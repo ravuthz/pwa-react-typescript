@@ -13,27 +13,24 @@ export interface AuthRouteProps extends ReactRouteProps {
   render?: (props: RouteComponentProps<any>) => React.ReactNode;
 }
 
-const AuthRoute: React.FC<any> = (authRouteProps: AuthRouteProps): JSX.Element => {
-
-  const { layout: Layout, component: Component, path, exact, hidden, render } = authRouteProps;
-
+const AuthRoute: React.FC<any> = (
+  { hidden, render, layout, component, ...rest }: AuthRouteProps
+): JSX.Element => {
   const history = useHistory();
-
-  const renderComponent: any = (props: any) => {
-    return render ? render(props) : (Component ? <Component {...props} /> : <></>);
-  };
-
   return (
     <ReactRoute
-      path={path}
-      exact={exact}
+      {...rest}
       render={(props: RouteComponentProps) => {
+        const Layout = layout || React.Fragment;
+        const Component = component || React.Fragment;
         if (!hidden && !AuthService.isAuthenticate()) {
           history.push('/login', { from: props.location });
-          // const to = { pathname: '/login', state: { from: props.location } };
-          // return <Redirect to={to}/>;
         }
-        return Layout ? <Layout>{renderComponent(props)}</Layout> : <>{renderComponent(props)}</>;
+
+        if (render) {
+          return <Layout>{render(props)}</Layout>;
+        }
+        return <Layout><Component {...props} /></Layout>;
       }}
     />
   );
