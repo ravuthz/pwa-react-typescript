@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { get, set } from "idb-keyval";
-import useSwr from 'swr';
+import AxiosService from '../services/axios.service';
 
 export const useWindowEvent = (event: any, callback: any) => {
   useEffect(() => {
@@ -24,6 +24,39 @@ export const useNetwork = () => {
 
   return { isOnline };
 };
+
+export const useFetchData = (options: any) => {
+  const [response, setResponse] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        AxiosService(options)
+          .then((res: any) => {
+            console.log('res: ', res);
+            setError(null);
+            setResponse(res.data.data);
+          })
+          .catch(err => {
+            setError(err);
+            setResponse({});
+          })
+          .finally(() => {
+            setLoading(false);
+          });
+      } catch (error) {
+        setError(error);
+        setResponse({});
+      }
+    };
+    fetchData();
+  }, [options]);
+
+  return { response, loading, error };
+}
 
 export const useJsonFetch = (url: string, options: any = {}) => {
   const [response, setResponse] = useState([]);
@@ -49,13 +82,6 @@ export const useJsonFetch = (url: string, options: any = {}) => {
   }, [url, options]);
   return { response, loading, error };
 };
-
-export const useSwrFetch = (path: string) => {
-  if (!path) {
-    throw new Error('Path is required')
-  }
-  return useSwr(path);
-}
 
 export function usePersistedState<TState>(keyToPersistWith: string, defaultState: TState) {
   const [state, setState] = useState<TState | undefined>(undefined);

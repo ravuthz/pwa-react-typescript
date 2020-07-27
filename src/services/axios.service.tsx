@@ -7,9 +7,18 @@ const axios = Axios.create({
   // timeout: 1000,
   baseURL: BASE_API_URL,
   headers: {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json'
-  }
+    // 'Accept': 'application/json',
+    // 'Content-Type': 'application/json'
+    'Accept': '*/*',
+    'Content-Type': 'application/x-www-form-urlencoded'
+  },
+  // transformResponse: [(response, headers) => {
+  //   console.log('transformResponse: ', response);
+  //   if (response && response.data) {
+  //     return response.data.content || [];
+  //   }
+  //   return response;
+  // }]
 });
 
 // axios.interceptors.request.use((config) => {

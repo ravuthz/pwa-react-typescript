@@ -2,13 +2,11 @@ import React from 'react';
 
 import { useAuthCtx } from './auth';
 
-const User = React.createContext({});
+const UserContext = React.createContext({});
 
-const UserProvider = (props: any) => {
+export const UserProvider = (props: any) => {
   const context = useAuthCtx();
-  return <User.Provider value={context} {...props} />;
+  return <UserContext.Provider value={context} {...props} />;
 }
 
-const useUserCtx: any = () => React.useContext(User);
-
-export { UserProvider, useUserCtx };
+export const useUserCtx: any = () => React.useContext(UserContext);

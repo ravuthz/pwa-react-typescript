@@ -2,38 +2,44 @@ import React from 'react';
 import AppTable from '../Shared/AppTable';
 
 const TodoListTable: React.FC<any> = (props: any) => {
-  const dataSource = [
-    {
-      key: '1',
-      name: 'Mike',
-      age: 32,
-      address: '10 Downing Street',
-    },
-    {
-      key: '2',
-      name: 'John',
-      age: 42,
-      address: '10 Downing Street',
-    },
-  ];
   const columns = [
     {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
+      title: 'Branch',
+      dataIndex: 'branch',
+      key: 'branch',
     },
     {
-      title: 'Age',
-      dataIndex: 'age',
-      key: 'age',
+      title: 'DD Account',
+      dataIndex: 'ddAccount',
+      key: 'ddAccount',
     },
     {
-      title: 'Address',
-      dataIndex: 'address',
-      key: 'address',
+      title: 'Last Paid Amount',
+      dataIndex: 'lastPaidAmount',
+      key: 'lastPaidAmount',
+    },
+    {
+      title: 'Load ID',
+      dataIndex: 'loanID',
+      key: 'loanID',
+    },
+    {
+      title: 'Name In English',
+      dataIndex: 'nameInEnglish',
+      key: 'nameInEnglish',
+    },
+    {
+      title: 'Name In Khmer',
+      dataIndex: 'nameInKhmer',
+      key: 'nameInKhmer',
+    },
+    {
+      title: 'Repayment Date',
+      dataIndex: 'repaymentDate',
+      key: 'repaymentDate',
     },
   ];
-  return (<AppTable dataSource={dataSource} columns={columns} {...props}/>);
+  return (<AppTable columns={columns} {...props}/>);
 };
 
 export default TodoListTable;

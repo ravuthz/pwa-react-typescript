@@ -6,13 +6,10 @@ import { LoginOutlined, LogoutOutlined } from "@ant-design/icons";
 import "./DefaultLayout.css";
 import NetworkBar from "../../NetworkBar/NetworkBar";
 import AuthService from "../../../services/auth.service";
-import { useAuthCtx } from '../../../context/auth';
 
 const { Header, Content, Footer } = Layout;
 
 const DefaultLayout: React.FC = ({ children }) => {
-  const auth = useAuthCtx();
-
   return (
     <Layout className="layout-wrapper">
       <Header>

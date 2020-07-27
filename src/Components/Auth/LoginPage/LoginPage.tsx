@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Redirect, useHistory } from "react-router-dom";
-import { Button, Card, Checkbox, Col, Form, Input, Row } from 'antd';
+import { Button, Card, Col, Form, Input, Row } from 'antd';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 
 import './LoginPage.css';
@@ -21,8 +21,8 @@ const colGrid = {
 }
 
 const initialForm = {
-  username: 'adminz',
-  password: '123123',
+  username: 'admin',
+  password: '@Ifl20digital',
   remember: false,
 };
 
@@ -71,11 +71,6 @@ const LoginPage: React.FC = () => {
                   type="password"
                   placeholder="Password"
                 />
-              </Form.Item>
-              <Form.Item>
-                <Form.Item name="remember" valuePropName="checked" noStyle>
-                  <Checkbox>Remember me</Checkbox>
-                </Form.Item>
               </Form.Item>
 
               <Form.Item>

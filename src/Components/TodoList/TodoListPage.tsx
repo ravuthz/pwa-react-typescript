@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
 import TodoListSearch from './TodoListSearch';
 import TodoListTable from './TodoListTable';
-import { Button, Divider, Modal } from 'antd';
+import { Divider, Modal } from 'antd';
 import TodoListForm from './TodoListForm';
+import { useAxiosGet } from '../../hooks/axios.hook';
+import { useTodoCtx } from '../../context/todo';
+
 
 const TodoListPage: React.FC = () => {
 
   const [showModal, setShowModel] = useState(false);
+  const { setSelectedTodo } = useTodoCtx();
+  const { result } = useAxiosGet('todo_list/getTodoList/364');
 
   const onSubmit = (data: any) => {
     console.log('onFinish: ', data);
@@ -27,6 +32,7 @@ const TodoListPage: React.FC = () => {
 
   const onRowDoubleClick = (row: any, index: any) => {
     console.log('row: ', row);
+    setSelectedTodo(row);
     setShowModel(true);
   }
 
@@ -34,7 +40,7 @@ const TodoListPage: React.FC = () => {
     <div>
       <TodoListSearch onSubmit={onSubmit} onCancel={onCancel}/>
       <Divider/>
-      <TodoListTable onRowDoubleClick={onRowDoubleClick}/>
+      <TodoListTable dataSource={result} onRowDoubleClick={onRowDoubleClick}/>
       <Modal
         title="Todo List Form"
         visible={showModal}

@@ -1,6 +1,7 @@
 import React from 'react';
 import AppDescription from '../../Shared/AppDescription';
-import { Button, Divider } from 'antd';
+import { Divider } from 'antd';
+import { useAxiosGet } from '../../../hooks/axios.hook';
 
 const newEnquiry = [
   {
@@ -84,44 +85,15 @@ const newAddress = [
   },
 ];
 
-const product = [
-  {
-    label: 'Product type',
-    value: 'Electronic'
-  },
-  {
-    label: 'Product',
-    value: 'Computer MSI'
-  },
-  {
-    label: 'Total Loan',
-    value: '$700'
-  },
-  {
-    label: 'Down Payment',
-    value: '$0'
-  },
-  {
-    label: 'Total Monthly Installment',
-    value: '$71'
-  },
-  {
-    label: 'Loan Term',
-    value: '12'
-  },
-  {
-    label: 'Price',
-    value: '$700'
-  },
-];
-
-
 const CbcInfo: React.FC = () => {
+  const { result } = useAxiosGet('todo_list/getCbc/LC19092300001');
+  console.log('result: ', result);
+
   return (
     <div>
-      <AppDescription title="New Enquiry" content={newEnquiry} bordered={true} />
+      <AppDescription title="New Enquiry" content={newEnquiry} bordered={true}/>
       <Divider/>
-      <AppDescription title="New Address" content={newAddress} />
+      <AppDescription title="New Address" content={newAddress}/>
     </div>
   );
 };

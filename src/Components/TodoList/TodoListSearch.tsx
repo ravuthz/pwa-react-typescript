@@ -2,22 +2,17 @@ import React, { useState } from 'react';
 import { Button, Col, Form, Row, Space } from 'antd';
 import { DownOutlined, UpOutlined } from '@ant-design/icons';
 import AppFormField from '../Shared/AppFormField';
+import { useAxiosGet } from '../../hooks/axios.hook';
 
-
-const officerList = [
-  {
-    label: 'Officer 1',
-    value: 'Officer 1'
-  }
-];
 
 const TodoListSearch: React.FC<any> = ({ defaultValue, onSubmit, onCancel }: any) => {
-  const [expand, setExpand] = useState(false);
+  const [expand, setExpand] = useState(true);
   const [form] = Form.useForm();
 
-  const onChange = (event: any) => {
-    console.log('event: ', event.target.checked);
-  }
+  const { result: officerOptions } = useAxiosGet('todo_list/getUser');
+  const { result: resultOptions } = useAxiosGet('todo_list/getResult');
+  const { result: statusOptions } = useAxiosGet('todo_list/getStatusMorakot');
+  const { result: todoOptions } = useAxiosGet('todo_list/getTodo');
 
   return (
     <div>
@@ -31,7 +26,7 @@ const TodoListSearch: React.FC<any> = ({ defaultValue, onSubmit, onCancel }: any
       >
         <Row gutter={24}>
           <React.Fragment>
-            <AppFormField type="select" name="officer" label="Officer" options={officerList}/>
+            <AppFormField type="select" name="officer" label="Officer" options={officerOptions}/>
             <AppFormField type="text" name="LoanID" label="Loan ID"/>
             <AppFormField type="text" name="NameInEnglish" label="Name EN"/>
             <AppFormField type="text" name="NameInKhmer" label="Name KH"/>
@@ -42,11 +37,11 @@ const TodoListSearch: React.FC<any> = ({ defaultValue, onSubmit, onCancel }: any
               <AppFormField type="date" name="endRepaymentDate" label="Ent Repayment"/>
               <AppFormField type="date" name="startPromiseDate" label="Start Promise"/>
               <AppFormField type="date" name="endPromiseDate" label="End Promise"/>
-              <AppFormField type="select" name="STATUS" label="Status"/>
+              <AppFormField type="select" name="STATUS" label="Status" options={statusOptions}/>
               <AppFormField type="date" name="shiftLC" label="Shift LC"/>
-              <AppFormField type="check" name="sortCalled" label="Sort Called" defaultChecked={true} onChange={onChange}/>
-              <AppFormField type="select" name="statusCalled" label="Status Called"/>
-              <AppFormField type="select" name="todo" label="Todo"/>
+              <AppFormField type="check" name="sortCalled" label="Sort Called"/>
+              <AppFormField type="select" name="statusCalled" label="Status Called" options={resultOptions}/>
+              <AppFormField type="select" name="todo" label="Todo" options={todoOptions}/>
             </React.Fragment>
           )}
         </Row>

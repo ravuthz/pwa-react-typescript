@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button, Col, Form, Input, Row, Space } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 
@@ -64,7 +64,7 @@ const AddressForm: React.FC<any> = ({ defaultValue, onSubmit, onCancel }: any) =
                       fieldKey={[field.fieldKey, 'first']}
                       rules={[{ required: true, message: 'Missing first name' }]}
                     >
-                      <Input placeholder="Type phone number" />
+                      <Input placeholder="Type phone number"/>
                     </Form.Item>
                     <Form.Item
                       {...field}
@@ -72,7 +72,7 @@ const AddressForm: React.FC<any> = ({ defaultValue, onSubmit, onCancel }: any) =
                       fieldKey={[field.fieldKey, 'last']}
                       rules={[{ required: true, message: 'Missing last name' }]}
                     >
-                      <Input placeholder="Remark" />
+                      <Input placeholder="Remark"/>
                     </Form.Item>
 
                     <MinusCircleOutlined
@@ -91,7 +91,7 @@ const AddressForm: React.FC<any> = ({ defaultValue, onSubmit, onCancel }: any) =
                     }}
                     block
                   >
-                    <PlusOutlined /> Add field
+                    <PlusOutlined/> Add field
                   </Button>
                 </Form.Item>
               </div>

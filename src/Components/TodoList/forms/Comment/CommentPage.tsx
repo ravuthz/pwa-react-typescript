@@ -3,9 +3,16 @@ import { Divider, Modal } from 'antd';
 import CommentSearch from './CommentSearch';
 import CommentTable from './CommentTable';
 import CommentForm from './CommentForm';
+import { useAxiosGet } from '../../../../hooks/axios.hook';
+import { useTodoCtx } from '../../../../context/todo';
 
 const CommentPage: React.FC<any> = () => {
   const [showModal, setShowModel] = useState(false);
+  const { selectedTodo } = useTodoCtx();
+
+  const { result: commentItems } = useAxiosGet('todo_list/getCommentByLc/' + selectedTodo.loanID);
+
+  console.log('commentItems: ', commentItems);
 
   const onSubmit = (data: any) => {
     console.log('onFinish: ', data);
@@ -17,7 +24,6 @@ const CommentPage: React.FC<any> = () => {
   }
 
   const onModalOk = () => {
-    //
     setShowModel(false);
   }
 
@@ -42,7 +48,7 @@ const CommentPage: React.FC<any> = () => {
         onOk={onModalOk}
         onCancel={onModalCancel}
       >
-        <CommentForm />
+        <CommentForm/>
       </Modal>
     </div>
   );

@@ -9,35 +9,35 @@ import PaymentInfoPage from './forms/PaymentInfo/PaymentInfoPage';
 
 const { TabPane } = Tabs;
 
-const tabs = {
-  customerInfo: {
-    key: 'customerInfo',
-    tab: 'Customer Info',
-    content: <CustomerInfo/>
-  },
-  documents: {
-    key: 'documents',
-    tab: 'Documents',
-    content: <Documents/>
-  },
-  cbcInfo: {
-    key: 'cbcInfo',
-    tab: 'CBC Info',
-    content: <CbcInfo/>
-  },
-  paymentInfo: {
-    key: 'paymentInfo',
-    tab: 'Payment Info',
-    content: <PaymentInfoPage/>
-  },
-  comment: {
-    key: 'comment',
-    tab: 'Comment',
-    content: <CommentPage/>
-  }
-};
+const TodoListForm: React.FC<any> = () => {
 
-const TodoListForm: React.FC = () => {
+  const tabs = {
+    customerInfo: {
+      key: 'customerInfo',
+      tab: 'Customer Info',
+      content: <CustomerInfo/>
+    },
+    documents: {
+      key: 'documents',
+      tab: 'Documents',
+      content: <Documents/>
+    },
+    cbcInfo: {
+      key: 'cbcInfo',
+      tab: 'CBC Info',
+      content: <CbcInfo/>
+    },
+    paymentInfo: {
+      key: 'paymentInfo',
+      tab: 'Payment Info',
+      content: <PaymentInfoPage/>
+    },
+    comment: {
+      key: 'comment',
+      tab: 'Comment',
+      content: <CommentPage/>
+    }
+  };
 
   const onTabChange = (key: any) => {
     console.log(key);
