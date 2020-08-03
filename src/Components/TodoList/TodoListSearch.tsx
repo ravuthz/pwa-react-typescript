@@ -6,7 +6,7 @@ import { useAxiosGet } from '../../hooks/axios.hook';
 
 
 const TodoListSearch: React.FC<any> = ({ defaultValue, onSubmit, onCancel }: any) => {
-  const [expand, setExpand] = useState(true);
+  const [expand, setExpand] = useState(false);
   const [form] = Form.useForm();
 
   const { result: officerOptions } = useAxiosGet('todo_list/getUser');
@@ -25,14 +25,12 @@ const TodoListSearch: React.FC<any> = ({ defaultValue, onSubmit, onCancel }: any
         onFinish={onSubmit}
       >
         <Row gutter={24}>
-          <React.Fragment>
-            <AppFormField type="select" name="officer" label="Officer" options={officerOptions}/>
-            <AppFormField type="text" name="LoanID" label="Loan ID"/>
-            <AppFormField type="text" name="NameInEnglish" label="Name EN"/>
-            <AppFormField type="text" name="NameInKhmer" label="Name KH"/>
-          </React.Fragment>
           {expand && (
             <React.Fragment>
+              <AppFormField type="select" name="officer" label="Officer" options={officerOptions}/>
+              <AppFormField type="text" name="loanID" label="Loan ID"/>
+              <AppFormField type="text" name="nameInEnglish" label="Name EN"/>
+              <AppFormField type="text" name="nameInKhmer" label="Name KH"/>
               <AppFormField type="date" name="startRepaymentDate" label="Start Repayment"/>
               <AppFormField type="date" name="endRepaymentDate" label="Ent Repayment"/>
               <AppFormField type="date" name="startPromiseDate" label="Start Promise"/>
@@ -45,9 +43,8 @@ const TodoListSearch: React.FC<any> = ({ defaultValue, onSubmit, onCancel }: any
             </React.Fragment>
           )}
         </Row>
-
-        <Row>
-          <Col className="text-right" span={24}>
+        <Row gutter={24}>
+          <Col span={6}>
             <Space size="middle">
               <Button type="primary" htmlType="submit">
                 Search

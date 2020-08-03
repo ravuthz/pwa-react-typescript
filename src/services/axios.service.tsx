@@ -1,6 +1,8 @@
 import Axios from "axios";
+import * as ls from "local-storage";
 
 const USER_KEY = 'user';
+const AUTH_KEY = 'auth';
 const BASE_API_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:8000/api';
 
 const axios = Axios.create({
@@ -32,17 +34,25 @@ const axios = Axios.create({
 // });
 
 const setUser = (data: any) => {
-  const user = data ? JSON.stringify(data) : '';
-  localStorage.setItem(USER_KEY, user);
+  if (!data) {
+    return ls.remove(USER_KEY);
+  }
+  return ls.set<any>(USER_KEY, data);
 };
 
 const getUser = () => {
-  const user = localStorage.getItem(USER_KEY);
-  return user ? JSON.parse(user) : {};
+  return ls.get<any>(USER_KEY);
 }
 
-const delUser = () => {
-  localStorage.removeItem(USER_KEY);
+const setAuth = (data: boolean) => {
+  if (!data) {
+    return ls.remove(AUTH_KEY);
+  }
+  return ls.set<boolean>(AUTH_KEY, data);
+}
+
+const getAuth = () => {
+  return ls.get<boolean>(AUTH_KEY);
 }
 
 const authUpdate = () => {
@@ -57,7 +67,9 @@ const authUpdate = () => {
 const authHeader = () => {
   const user = getUser();
   if (user && user.token_type && user.access_token) {
-    return { 'Authorization': `${user.token_type} ${user.access_token}` }
+    return {
+      'Authorization': `${user.token_type} ${user.access_token}`
+    }
   } else {
     return {};
   }
@@ -69,7 +81,8 @@ export {
   BASE_API_URL,
   getUser,
   setUser,
-  delUser,
+  getAuth,
+  setAuth,
   authHeader,
   authUpdate
 }

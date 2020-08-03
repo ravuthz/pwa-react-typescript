@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Divider, Modal } from 'antd';
-import CommentSearch from './CommentSearch';
 import CommentTable from './CommentTable';
 import CommentForm from './CommentForm';
 import { useAxiosGet } from '../../../../hooks/axios.hook';
@@ -11,8 +10,6 @@ const CommentPage: React.FC<any> = () => {
   const { selectedTodo } = useTodoCtx();
 
   const { result: commentItems } = useAxiosGet('todo_list/getCommentByLc/' + selectedTodo.loanID);
-
-  console.log('commentItems: ', commentItems);
 
   const onSubmit = (data: any) => {
     console.log('onFinish: ', data);
@@ -38,9 +35,9 @@ const CommentPage: React.FC<any> = () => {
 
   return (
     <div>
-      <CommentSearch onSubmit={onSubmit} onCancel={onCancel}/>
+      <CommentForm onSubmit={onSubmit} onCancel={onCancel}/>
       <Divider/>
-      <CommentTable onRowDoubleClick={onRowDoubleClick}/>
+      <CommentTable dataSource={commentItems} onRowDoubleClick={onRowDoubleClick}/>
       <Modal
         title="Comment Form"
         visible={showModal}

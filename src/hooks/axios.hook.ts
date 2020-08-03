@@ -7,7 +7,7 @@ const useAxios = makeUseAxios({
 });
 
 export const useAxiosGet = (url: string) => {
-  const [result, setResult] = useState([]);
+  const [result, setResult] = useState<any>([]);
   const [{ data, loading, error }] = useAxios({
     url,
     headers: authHeader()

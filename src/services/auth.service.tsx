@@ -1,9 +1,7 @@
-import AxiosService, { delUser, getUser, setUser } from './axios.service';
+import AxiosService, { getUser, setAuth, setUser } from './axios.service';
 
-// const LOGIN_URL = `/token/`;
 const LOGIN_URL = `/login`;
 const REGISTER_URL = `/register/`;
-
 
 const renderFormData = (data: any) => {
   const formData = new FormData();
@@ -27,6 +25,8 @@ const login = (body: any) => {
     .then((data) => {
       if (data) {
         setUser(data);
+        setAuth(true);
+        authorize();
       }
       return data;
     });
@@ -34,7 +34,8 @@ const login = (body: any) => {
 
 const logout = () => {
   return new Promise((resolve, reject) => {
-    delUser();
+    setUser({});
+    setAuth(false);
     resolve(null);
   });
 };
@@ -48,8 +49,8 @@ const getCurrentUser = () => {
 };
 
 const isAuthenticate = () => {
-  const { token_type, access_token } = getUser();
-  return token_type && access_token;
+  const user = getUser();
+  return user && user.token_type && user.access_token;
 }
 
 const authorize = () => {

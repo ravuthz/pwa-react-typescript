@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Table } from 'antd';
 
-const AppTable: React.FC<any> = ({ dataSource, columns, onRowClick, onRowDoubleClick, onRowSelectChange }: any) => {
+const AppTable: React.FC<any> = ({ selectedKey = 'key', dataSource, columns, onRowClick, onRowDoubleClick, onRowSelectChange, ...props }: any) => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<any[]>([]);
 
   const onChange = (keys: any) => {
@@ -12,22 +12,28 @@ const AppTable: React.FC<any> = ({ dataSource, columns, onRowClick, onRowDoubleC
   }
 
   const onClick = (record: any, index: any) => {
-    setSelectedRowKeys([record.key]);
+    setSelectedRowKeys([record[selectedKey]]);
     if (onRowClick) {
       onRowClick(record, index);
     }
   }
 
   const onDoubleClick = (record: any, index: any) => {
-    setSelectedRowKeys([record.key]);
+    setSelectedRowKeys([record[selectedKey]]);
     if (onRowDoubleClick) {
       onRowDoubleClick(record, index);
     }
   }
 
+  // const onRowChange = (pagination: any, filters: any, sorter: any) => {
+  //   console.log('onRowChange: ', pagination, filters, sorter);
+  // }
+
   return (
     <div>
+      {/* onChange={onRowChange} */}
       <Table
+        scroll={{ x: true }}
         onRow={(record: any, index: any) => {
           return {
             onClick: () => onClick(record, index),
@@ -37,8 +43,11 @@ const AppTable: React.FC<any> = ({ dataSource, columns, onRowClick, onRowDoubleC
             // onMouseLeave: event => {}
           }
         }}
-        rowSelection={{ selectedRowKeys, onChange: onChange }}
-        dataSource={dataSource} columns={columns}/>;
+        rowSelection={{ type: 'radio', hideSelectAll: true, selectedRowKeys, onChange: onChange }}
+        dataSource={dataSource}
+        columns={columns}
+        {...props}
+      />;
     </div>
   );
 };

@@ -1,25 +1,12 @@
 import React from 'react';
 import AppTable from '../../../Shared/AppTable';
 
-const PaymentScheduleTable: React.FC = (props: any) => {
-
-  const dataSource = [
-    {
-      key: '1',
-      collectionDate: new Date().toDateString(),
-      principle: '58.73',
-      interest: '24.07',
-      installment: '82.80',
-      balance: '641.27',
-      repStatus: 'Full Paid On Time'
-    },
-  ];
-
+const PaymentScheduleTable: React.FC<any> = (props: any) => {
   const columns = [
     {
       title: 'No',
-      dataIndex: 'key',
-      key: 'key',
+      dataIndex: 'no',
+      key: 'no',
     },
     {
       title: 'CollectionDate',
@@ -52,8 +39,7 @@ const PaymentScheduleTable: React.FC = (props: any) => {
       key: 'repStatus',
     },
   ];
-
-  return (<AppTable dataSource={dataSource} columns={columns} {...props}/>);
+  return (<AppTable columns={columns} {...props}/>);
 };
 
 export default PaymentScheduleTable;

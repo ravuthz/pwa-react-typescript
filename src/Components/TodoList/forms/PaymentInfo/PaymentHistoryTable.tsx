@@ -1,20 +1,7 @@
 import React from 'react';
 import AppTable from '../../../Shared/AppTable';
 
-const PaymentHistoryTable: React.FC = (props: any) => {
-
-  const dataSource = [
-    {
-      key: '1',
-      paidDate: new Date().toDateString(),
-      ddAccount: 'DD066905',
-      name: 'Neth Chamrouen',
-      channel: 'Wing payment at 2020',
-      amount: '71.00',
-      phoneNumber: '015565335'
-    },
-  ];
-
+const PaymentHistoryTable: React.FC<any> = (props: any) => {
   const columns = [
     {
       title: 'Paid Date',
@@ -47,8 +34,7 @@ const PaymentHistoryTable: React.FC = (props: any) => {
       key: 'phoneNumber',
     },
   ];
-
-  return (<AppTable dataSource={dataSource} columns={columns} {...props}/>);
+  return (<AppTable columns={columns} {...props}/>);
 };
 
 export default PaymentHistoryTable;

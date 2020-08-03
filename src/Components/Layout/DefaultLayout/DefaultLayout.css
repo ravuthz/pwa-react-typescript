@@ -15,3 +15,11 @@
 .layout-wrapper Footer {
     text-align: center;
 }
+
+.ant-layout-header, .ant-menu.ant-menu-dark {
+    background-color: #b33939;
+}
+
+.text-right {
+    text-align: right;
+}

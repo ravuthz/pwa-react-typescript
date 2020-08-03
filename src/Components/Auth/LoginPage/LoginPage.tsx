@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Redirect, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { Button, Card, Col, Form, Input, Row } from 'antd';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 
@@ -21,14 +21,13 @@ const colGrid = {
 }
 
 const initialForm = {
-  username: 'admin',
-  password: '@Ifl20digital',
-  remember: false,
+  username: '',
+  password: '',
 };
 
 const LoginPage: React.FC = () => {
   const history = useHistory();
-  const { setUser, authenticated, setAuthenticated } = useAuthCtx();
+  const { setUser, setAuthenticated } = useAuthCtx();
   const [formValue, setFormValue] = useState<any>(initialForm);
 
   const onFinish = (data: any) => {
@@ -39,10 +38,6 @@ const LoginPage: React.FC = () => {
       history.push('/');
     });
   };
-
-  if (authenticated) {
-    return <Redirect to="/?logged-in"/>
-  }
 
   return (
     <div className="login-container">

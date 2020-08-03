@@ -5,7 +5,7 @@ import "./App.less";
 
 import AuthRoute from './Auth/AuthRoute';
 
-const HomePage = lazy(() => import('./Home/HomePage'));
+// const HomePage = lazy(() => import('./Home/HomePage'));
 // const AboutPage = lazy(() => import('./About/AboutPage'));
 // const TodoPage = lazy(() => import('./Todoes/TodoPage'));
 // const PhotoPage = lazy(() => import('./Photos/PhotoPage'));
@@ -17,24 +17,26 @@ const DefaultLayout = lazy(() => import('./Layout/DefaultLayout/DefaultLayout'))
 
 const App: React.FC<any> = () => {
   return (
-    <Router>
-      <Switch>
-        <Suspense fallback={<div>Loading...</div>}>
-          {/*<AuthRoute path="/images" component={ImagePage} layout={DefaultLayout}/>*/}
-          {/*<AuthRoute path="/photos" component={PhotoPage} layout={DefaultLayout}/>*/}
-          {/*<AuthRoute path="/todos" component={TodoPage} layout={DefaultLayout}/>*/}
-          {/*<AuthRoute path="/about" component={AboutPage} layout={DefaultLayout}/>*/}
-          <Route key="login" exact={true} path="/login">
-            <LoginPage/>
-          </Route>
-          <Route key="logout" exact={true} path="/logout">
-            <LogoutPage/>
-          </Route>
-          <AuthRoute key="todo-list" exact={true} path="/todo-list" component={TodoListPage} layout={DefaultLayout}/>
-          <AuthRoute key="home" exact={true} path="/" component={HomePage} layout={DefaultLayout}/>
-        </Suspense>
-      </Switch>
-    </Router>
+    <div data-testid="app-test-id">
+      <Router>
+        <Switch>
+          <Suspense fallback={<div>Loading...</div>}>
+            {/*<AuthRoute path="/images" component={ImagePage} layout={DefaultLayout}/>*/}
+            {/*<AuthRoute path="/photos" component={PhotoPage} layout={DefaultLayout}/>*/}
+            {/*<AuthRoute path="/todos" component={TodoPage} layout={DefaultLayout}/>*/}
+            {/*<AuthRoute path="/about" component={AboutPage} layout={DefaultLayout}/>*/}
+            <Route key="login" exact={true} path="/login">
+              <LoginPage/>
+            </Route>
+            <Route key="logout" exact={true} path="/logout">
+              <LogoutPage/>
+            </Route>
+            <AuthRoute key="todo-list" exact={true} path="/" component={TodoListPage} layout={DefaultLayout}/>
+            {/*<AuthRoute key="home" exact={true} path="/" component={HomePage} layout={DefaultLayout}/>*/}
+          </Suspense>
+        </Switch>
+      </Router>
+    </div>
   );
 };
 

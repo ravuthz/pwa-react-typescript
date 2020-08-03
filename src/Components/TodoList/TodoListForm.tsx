@@ -39,20 +39,14 @@ const TodoListForm: React.FC<any> = () => {
     }
   };
 
-  const onTabChange = (key: any) => {
-    console.log(key);
-  }
-
   return (
-    <div>
-      <Tabs defaultActiveKey="1" onChange={onTabChange}>
-        {tabs && _.map(tabs, ({ content, ...tab }) => (
-          <TabPane {...tab}>
-            {content}
-          </TabPane>
-        ))}
-      </Tabs>
-    </div>
+    <Tabs defaultActiveKey="1">
+      {tabs && _.map(tabs, ({ content, ...tab }) => (
+        <TabPane {...tab}>
+          {content}
+        </TabPane>
+      ))}
+    </Tabs>
   );
 };
 

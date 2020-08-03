@@ -1,8 +1,9 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, memo, useContext, useEffect, useState } from 'react';
+import { getAuth, getUser } from '../services/axios.service';
 
 const AuthContext = createContext({});
 
-export const AuthProvider = (props: any) => {
+export const AuthProvider = memo((props: any) => {
   const [user, setUser] = useState({});
   const [authenticated, setAuthenticated] = useState(false);
   const value = {
@@ -11,7 +12,11 @@ export const AuthProvider = (props: any) => {
     authenticated,
     setAuthenticated,
   };
+  useEffect(() => {
+    setUser(getUser());
+    setAuthenticated(getAuth());
+  }, []);
   return (<AuthContext.Provider value={value} {...props} />);
-}
+})
 
 export const useAuthCtx: any = () => useContext(AuthContext);
