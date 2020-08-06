@@ -5,7 +5,7 @@ import AppFormField from '../Shared/AppFormField';
 import { useAxiosGet } from '../../hooks/axios.hook';
 
 
-const TodoListSearch: React.FC<any> = ({ defaultValue, onSubmit, onCancel }: any) => {
+const TodoListSearch: React.FC<any> = ({ defaultValue, onSubmit, onCancel, onFreeze }: any) => {
   const [expand, setExpand] = useState(false);
   const [form] = Form.useForm();
 
@@ -32,7 +32,7 @@ const TodoListSearch: React.FC<any> = ({ defaultValue, onSubmit, onCancel }: any
               <AppFormField type="text" name="nameInEnglish" label="Name EN"/>
               <AppFormField type="text" name="nameInKhmer" label="Name KH"/>
               <AppFormField type="date" name="startRepaymentDate" label="Start Repayment"/>
-              <AppFormField type="date" name="endRepaymentDate" label="Ent Repayment"/>
+              <AppFormField type="date" name="endRepaymentDate" label="End Repayment"/>
               <AppFormField type="date" name="startPromiseDate" label="Start Promise"/>
               <AppFormField type="date" name="endPromiseDate" label="End Promise"/>
               <AppFormField type="select" name="STATUS" label="Status" options={statusOptions}/>
@@ -44,7 +44,7 @@ const TodoListSearch: React.FC<any> = ({ defaultValue, onSubmit, onCancel }: any
           )}
         </Row>
         <Row gutter={24}>
-          <Col span={6}>
+          <Col span={8}>
             <Space size="middle">
               <Button type="primary" htmlType="submit">
                 Search
@@ -56,6 +56,11 @@ const TodoListSearch: React.FC<any> = ({ defaultValue, onSubmit, onCancel }: any
                 {expand ? <UpOutlined/> : <DownOutlined/>} Filter
               </Button>
             </Space>
+          </Col>
+          <Col className="text-right" offset={8} span={8}>
+            <Button onClick={() => onFreeze()}>
+              Sync Data
+            </Button>
           </Col>
         </Row>
       </Form>

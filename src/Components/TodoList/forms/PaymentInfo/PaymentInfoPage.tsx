@@ -12,13 +12,15 @@ const PaymentInfoPage: React.FC = () => {
   const { selectedTodo } = useTodoCtx();
   const { result: paymentSchedule } = useAxiosGet('todo_list/getListPaymentSchedule/' + selectedTodo.loanID);
   const { result: paymentHistory } = useAxiosGet('todo_list/getListPaymentHistory/' + selectedTodo.ddAccount);
+  const { result: paymentInfo } = useAxiosGet('todo_list/getPaymentInfo/' + selectedTodo.loanID);
 
   // console.log('paymentSchedule: ', paymentSchedule);
   // console.log('paymentHistory: ', paymentHistory);
+  // console.log('paymentInfo: ', paymentInfo);
 
   return (
     <div>
-      <PaymentInfoForm/>
+      <PaymentInfoForm data={paymentInfo}/>
       <Tabs defaultActiveKey="1">
         <TabPane key="1" tab="Payment Schedule">
           <PaymentScheduleTable rowSelection={undefined} dataSource={paymentSchedule}/>

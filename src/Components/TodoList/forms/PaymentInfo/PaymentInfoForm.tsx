@@ -1,42 +1,30 @@
 import React from 'react';
 import AppDescription from '../../../Shared/AppDescription';
+import * as _ from 'lodash';
 
-const paymentInfo = [
-  {
-    label: 'Monthly Installment',
-    value: '71.00'
-  },
-  {
-    label: 'Paid Amount',
-    value: '71.00'
-  },
-  {
-    label: 'Remaining Amount',
-    value: '0.30'
-  },
-  {
-    label: 'Plan to Collect',
-    value: '71.30'
-  },
-  {
-    label: 'Total Penalty',
-    value: '0.50'
-  },
-  {
-    label: 'Remaining Installment',
-    value: '0'
-  },
-  {
-    label: 'Status',
-    value: 'D0'
-  },
-];
+const paymentInfoKeys = {
+  monthlyInstallment: "Monthly Installment",
+  paidAmount: "Paid Amount",
+  remainingAmount: "Remaining Amount",
+  planCollect: "Plan to Collect",
+  totalPenalty: "Total Penalty",
+  remainingInstallment: "Remaining Installment",
+  status: "Status",
+  // remainAmount: "",
+  // totalMonthlyWithPenalty: "",
+};
 
-const PaymentInfoForm: React.FC = () => {
+const formatLabelValue = (keys: any, data: any) => {
+  return _.map(keys, (label, key) => {
+    let value = data[key];
+    return { label, value };
+  });
+}
 
+const PaymentInfoForm: React.FC<any> = ({ data }) => {
   return (
     <div>
-      <AppDescription content={paymentInfo} bordered={true}>
+      <AppDescription content={formatLabelValue(paymentInfoKeys, data)} bordered={true}>
       </AppDescription>
     </div>
   );

@@ -1,6 +1,7 @@
 import React from 'react';
 import AppTable from '../Shared/AppTable';
 import moment from 'moment';
+import { Progress, Spin } from 'antd';
 
 const addColumn = (key: string, title: string, sort: string, filter: any = {}, sortDirections = ['descend', 'ascend']) => {
   let sorter = null;
@@ -21,6 +22,7 @@ const addColumn = (key: string, title: string, sort: string, filter: any = {}, s
   return {
     key,
     title,
+    ellipsis: true,
     dataIndex: key,
     filteredValue: filter[key] ? [filter[key]] : null,
     onFilter: (value: any, record: any) => record[key].includes(value),
@@ -51,7 +53,18 @@ const addDateFilter = (key: string, keyStart: any, keyEnd: any, filter: any = {}
   };
 };
 
-const TodoListTable: React.FC<any> = ({ filter, ...props }: any) => {
+const ProgressPercent: React.FC<any> = ({ loaded }) => {
+  return (
+    <div className="ProgressPercent">
+      <Progress strokeColor={{
+        '0%': '#e9353c',
+        '100%': '#ca3564',
+      }} type="circle" percent={loaded}/>
+    </div>
+  );
+}
+
+const TodoListTable: React.FC<any> = ({ filter, loaded, loading, ...props }: any) => {
   const columns: any = [
     addColumn('branch', 'Branch', 'string', filter),
     addColumn('ddAccount', 'DD Account', 'code', filter),
@@ -76,10 +89,14 @@ const TodoListTable: React.FC<any> = ({ filter, ...props }: any) => {
     addColumn('commentTime', 'Comment Time', 'string'),
     addColumn('lastPaidDate', 'LastPaidDate', 'date'),
     addColumn('lastPaidAmount', 'LastPaidAmount', 'number'),
-    addColumn('dueDate', 'Due Date', 'date'),
+    addColumn('dueDay', 'Due Day', 'string'),
     addColumn('penalty', 'Penalty', 'string'),
   ];
-  return (<AppTable columns={columns} {...props}/>);
+  return (
+    <Spin spinning={loading} indicator={<ProgressPercent loaded={loaded}/>}>
+      <AppTable columns={columns} {...props}/>
+    </Spin>
+  );
 };
 
 export default TodoListTable;

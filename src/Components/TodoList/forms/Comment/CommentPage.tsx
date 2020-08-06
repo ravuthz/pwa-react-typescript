@@ -4,10 +4,13 @@ import CommentTable from './CommentTable';
 import CommentForm from './CommentForm';
 import { useAxiosGet } from '../../../../hooks/axios.hook';
 import { useTodoCtx } from '../../../../context/todo';
+import CommentView from './CommentView';
+import { useCommentCtx } from '../../../../context/comment';
 
 const CommentPage: React.FC<any> = () => {
   const [showModal, setShowModel] = useState(false);
   const { selectedTodo } = useTodoCtx();
+  const { selectedComment, setSelectedComment } = useCommentCtx();
 
   const { result: commentItems } = useAxiosGet('todo_list/getCommentByLc/' + selectedTodo.loanID);
 
@@ -22,14 +25,16 @@ const CommentPage: React.FC<any> = () => {
 
   const onModalOk = () => {
     setShowModel(false);
+    setSelectedComment();
   }
 
   const onModalCancel = () => {
     setShowModel(false);
+    setSelectedComment();
   }
 
   const onRowDoubleClick = (row: any, index: any) => {
-    console.log('row: ', row);
+    setSelectedComment(row);
     setShowModel(true);
   }
 
@@ -45,7 +50,7 @@ const CommentPage: React.FC<any> = () => {
         onOk={onModalOk}
         onCancel={onModalCancel}
       >
-        <CommentForm/>
+        <CommentView data={selectedComment}/>
       </Modal>
     </div>
   );

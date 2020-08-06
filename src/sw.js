@@ -2,6 +2,7 @@ const modulePathPrefix = 'workbox-v5.1.3';
 
 importScripts(modulePathPrefix + "/workbox-sw.js");
 
+// const baseUrl = 'http://localhost:8888';
 const precacheManifest = [];
 
 function storageEstimateWrapper() {
@@ -44,51 +45,109 @@ self.addEventListener('install', (event) => {
     // };
 });
 
-self.addEventListener('message', (event) => {
-    console.log('WorkBox.message: ', event);
+if ('BackgroundFetchManager' in self) {
+    console.log('This browser supports Background Fetch!');
+}
+
+self.addEventListener('backgroundfetchsuccess', (event) => {
+    console.log('backgroundfetchsuccess: ', event);
 });
 
+self.addEventListener('backgroundfetchfail', (event) => {
+    console.log('backgroundfetchfail: ', event);
+});
+
+self.addEventListener('backgroundfetchclick', (event) => {
+    console.log('backgroundfetchclick: ', event);
+});
+
+// self.addEventListener('fetch',  (event) => {
+//     const url = "http://localhost:8283/api/todo_list/getTodoList/327";
+//     const req = event.request;
+//     if (req.url.includes(url)) {
+//         console.log('fetch.event: ', event);
+//         const fetchData = fetch(req).then((res) => {
+//             console.log('res: ', res);
+//
+//             caches.open('test-cache').then(testCache => {
+//                 const cloned = res.clone();
+//                 testCache.add(req, cloned);
+//                 console.log('cloned: ', cloned);
+//             });
+//
+//             return res;
+//         });
+//         event.respondWith(fetchData);
+//     }
+//     // http://localhost:8283/api/todo_list/getTodoList/327
+// });
+
+// self.addEventListener('fetch', event => {
+//     console.log('fetch.event.request.url: ', event.request.url);
+// });
+
+// self.addEventListener('message', (event) => {
+//     console.log('WorkBox.message: ', event);
+// });
+
 if (workbox) {
-    // workbox.skipWaiting();
     console.log(`Wow! WorkBox is loaded 🎉`);
     workbox.setConfig({modulePathPrefix, debug: true});
-    // workbox.core.setLogLevel(workbox.core.LOG_LEVELS.debug);
     workbox.precaching.precacheAndRoute(self.__WB_MANIFEST);
 
     const dataCacheConfig = {
-        cacheName: 'cache-data'
+        cacheName: 'cache-data',
+        plugins: [
+            new workbox.cacheableResponse.CacheableResponsePlugin({
+                statuses: [0, 200]
+            }),
+            new workbox.expiration.ExpirationPlugin({
+                maxAgeSeconds: 60 * 60 * 24 * 365, // 1 years
+                maxEntries: 10000,
+                purgeOnQuotaError: true // Automatically cleanup if quota is exceeded.
+            })
+        ]
     };
 
-    const photoCacheConfig = {
-        cacheName: 'cache-photos',
-    };
-
-    const imageCacheConfig = {
-        cacheName: 'cache-images',
-        // plugins: [
-        //     new workbox.cacheableResponse.Plugin({
-        //         statuses: [0, 200]
-        //     })
-        // ]
-    };
+    // const photoCacheConfig = {
+    //     cacheName: 'cache-photos',
+    // };
+    //
+    // const imageCacheConfig = {
+    //     cacheName: 'cache-images',
+    // };
 
     workbox.routing.registerRoute(
-        ({url}) => url.origin === 'https://jsonplaceholder.typicode.com' && url.pathname.startsWith('/photos'),
-        new workbox.strategies.CacheFirst(photoCacheConfig),
+        ({url}) => {
+            console.log('/api', url.pathname.startsWith('/api'));
+            return url.pathname.startsWith('/api');
+        },
+        new workbox.strategies.StaleWhileRevalidate(dataCacheConfig),
         'GET'
     );
 
-    workbox.routing.registerRoute(
-        ({url}) => url.origin === 'https://api.unsplash.com' && url.pathname.startsWith('/photos'),
-        new workbox.strategies.CacheFirst(imageCacheConfig),
-        'GET'
-    );
+    // workbox.routing.registerRoute(
+    //     ({url}) => url.origin === baseUrl && url.pathname.startsWith('/api'),
+    //     new workbox.strategies.StaleWhileRevalidate(dataCacheConfig),
+    //     'GET'
+    // );
+
+    // workbox.routing.registerRoute(
+    //     ({url}) => url.origin === 'https://jsonplaceholder.typicode.com' && url.pathname.startsWith('/photos'),
+    //     new workbox.strategies.CacheFirst(photoCacheConfig),
+    //     'GET'
+    // );
+    //
+    // workbox.routing.registerRoute(
+    //     ({url}) => url.origin === 'https://api.unsplash.com' && url.pathname.startsWith('/photos'),
+    //     new workbox.strategies.CacheFirst(imageCacheConfig),
+    //     'GET'
+    // );
 
     const handler = workbox.precaching.createHandlerBoundToURL('/index.html');
-    const navigationRoute = new workbox.routing.NavigationRoute(handler, {
+    workbox.routing.registerRoute(new workbox.routing.NavigationRoute(handler, {
         denylist: [/^\/_/, /\/[^/?]+\.[^/]+$/],
-    });
-    workbox.routing.registerRoute(navigationRoute);
+    }));
 } else {
     console.log(`Sad! WorkBox didn't load 😬`);
 }

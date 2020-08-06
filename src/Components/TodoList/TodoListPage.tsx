@@ -1,18 +1,24 @@
 import React, { useState } from 'react';
 import TodoListSearch from './TodoListSearch';
 import TodoListTable from './TodoListTable';
-import { Divider, Modal } from 'antd';
+import { Divider, Modal, Progress } from 'antd';
 import TodoListForm from './TodoListForm';
 import { useAxiosGet } from '../../hooks/axios.hook';
 import { useTodoCtx } from '../../context/todo';
-// import AxiosService, { authHeader } from '../../services/axios.service';
+import AxiosService, { authHeader } from '../../services/axios.service';
+import { progressPromise } from '../../services/progress-promise.service';
+import { log } from '../../services/log.js';
+
+const logger = log.getLogger("TodoListPage");
 
 const TodoListPage: React.FC = () => {
   const [formFilter, setFormFilter] = useState({});
   const [showModal, setShowModel] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [loaded, setLoaded] = useState(0);
   const { setSelectedTodo } = useTodoCtx();
-  // const { result } = useAxiosGet('todo_list/getTodoList/364');
-  const { result } = useAxiosGet('todo_list/getTodoList/327'); // hak_kim
+
+  const { result } = useAxiosGet('todo_list/getTodoList');
 
   const onSubmit = (data: any) => {
     setFormFilter(data);
@@ -21,6 +27,48 @@ const TodoListPage: React.FC = () => {
   const onCancel = (form: any) => {
     form.resetFields();
     setFormFilter({});
+  }
+
+  const onFreeze = () => {
+    const options = { headers: authHeader() };
+
+    setLoading(true);
+    setLoaded(0);
+
+    AxiosService.get('/todo_list/getTodoList', options)
+      .then(res => res.data.data.content || [])
+      .then((data: any) => {
+        if (data && data.length > 0) {
+          let requests: any = [];
+
+          data.map((item: any) => {
+            const { loanID, ddAccount } = item;
+            requests.push(AxiosService.get(`/todo_list/getCustomerInfo/${loanID}`, options));
+            requests.push(AxiosService.get(`/todo_list/getCbc/${loanID}`, options));
+            requests.push(AxiosService.get(`/todo_list/getCommentByLc/${loanID}`, options));
+            requests.push(AxiosService.get(`/todo_list/getPaymentInfo/${loanID}`, options));
+            requests.push(AxiosService.get(`/todo_list/getListPaymentSchedule/${loanID}`, options));
+            requests.push(AxiosService.get(`/todo_list/getListPaymentHistory/${ddAccount}`, options));
+          });
+
+          progressPromise(requests, (progress: any) => {
+            setLoaded(progress);
+            if (progress === 100) {
+              setLoading(false);
+            }
+          })
+            .then(values => {
+              logger.debug("all promises success: " + values.length);
+            })
+            .catch(error => {
+              logger.error(error);
+            })
+            .finally(() => {
+              setLoading(false);
+            });
+
+        }
+      });
   }
 
   const onModalOk = () => {
@@ -37,44 +85,16 @@ const TodoListPage: React.FC = () => {
   }
 
   // useEffect(() => {
-  //   if (!result && result.length > 0) {
-  //     console.log('result: ', result);
   //
-  //     const cacheTest = caches.open('my-cache1').then(myCache1 => {
-  //       myCache1.add('test-my-cache1');
-  //
-  //       const { loanID, ddAccount } = result[0];
-  //
-  //       // const fetchPaymentHistory = `http://localhost:8283/api/todo_list/getListPaymentHistory/${ddAccount}`;
-  //       // const fetchPaymentSchedule = `http://localhost:8283/api/todo_list/getListPaymentSchedule/${loanID}`;
-  //
-  //       const options = {
-  //         headers: authHeader()
-  //       };
-  //
-  //       // AxiosService.get(fetchPaymentHistory, options).then(res => {
-  //       //   console.info(`fetched: ${fetchPaymentHistory}`, res);
-  //       // });
-  //       //
-  //       // AxiosService.get(fetchPaymentSchedule, options).then(res => {
-  //       //   console.info(`fetched: ${fetchPaymentSchedule}`, res);
-  //       // });
-  //
-  //       // http://localhost:8283/api/todo_list/getCustomerInfo/LC19082600020
-  //       // http://localhost:8283/api/todo_list/getCbc/LC19082600020
-  //       // http://localhost:8283/api/todo_list/getListPaymentSchedule/LC19082600020
-  //       // http://localhost:8283/api/todo_list/getListPaymentHistory/DD057393
-  //       // http://localhost:8283/api/todo_list/getCommentByLc/LC19082600020
-  //
-  //     });
-  //   }
   // }, [result]);
 
   return (
     <div>
-      <TodoListSearch onSubmit={onSubmit} onCancel={onCancel}/>
+      <TodoListSearch onSubmit={onSubmit} onCancel={onCancel} onFreeze={onFreeze}/>
       <Divider/>
       <TodoListTable
+        loaded={loaded}
+        loading={loading}
         filter={formFilter}
         dataSource={result}
         onRowDoubleClick={onRowDoubleClick}
