@@ -14,6 +14,7 @@ const axios = Axios.create({
     'Accept': '*/*',
     'Content-Type': 'application/x-www-form-urlencoded'
   },
+
   // transformResponse: [(response, headers) => {
   //   console.log('transformResponse: ', response);
   //   if (response && response.data) {
@@ -66,13 +67,23 @@ const authUpdate = () => {
 
 const authHeader = () => {
   const user = getUser();
+  let headers: any = {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json;charset=UTF-8',
+
+    // 'Access-Control-Allow-Origin': '*',
+    // 'Access-Control-Allow-Methods': '*',
+    // 'Access-Control-Allow-Credentials': false,
+    // 'Access-Control-Max-Age': 86400,
+    // 'Access-Control-Allow-Headers': '*'
+  };
   if (user && user.token_type && user.access_token) {
-    return {
+    headers = {
+      ...headers,
       'Authorization': `${user.token_type} ${user.access_token}`
-    }
-  } else {
-    return {};
+    };
   }
+  return headers;
 }
 
 export default axios;

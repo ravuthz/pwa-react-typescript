@@ -1,11 +1,11 @@
 import React from 'react';
 import { Tabs } from 'antd';
 import CustomerInfo from './forms/CustomerInfo/CustomerInfo';
-import Documents from './forms/Documents';
 import CbcInfo from './forms/CbcInfo';
 import CommentPage from './forms/Comment/CommentPage';
-import *  as _ from 'lodash';
 import PaymentInfoPage from './forms/PaymentInfo/PaymentInfoPage';
+import DocumentPage from './forms/Documents/DocumentPage';
+import *  as _ from 'lodash';
 
 const { TabPane } = Tabs;
 
@@ -20,7 +20,7 @@ const TodoListForm: React.FC<any> = () => {
     documents: {
       key: 'documents',
       tab: 'Documents',
-      content: <Documents/>
+      content: <DocumentPage/>
     },
     cbcInfo: {
       key: 'cbcInfo',

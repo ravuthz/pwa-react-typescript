@@ -4,6 +4,7 @@ import {authHeader} from "./axios.service";
 import moment from 'moment';
 
 const url = process.env.REACT_APP_API_BASE_URL + '/logger';
+const {'Content-Type': ContentType, ...headers} = authHeader();
 
 const format = (log) => ({
     level: log.level.label,
@@ -15,16 +16,14 @@ const format = (log) => ({
 
 const defaults = {
     url,
+    headers,
     method: 'POST',
-    headers: {
-        ...authHeader(),
-        'Accept': 'application/json'
-    },
     level: 'trace',
     format,
 };
 
 remote.apply(log, defaults);
-log.enableAll();
+// log.enableAll();
+log.disableAll();
 
 export {log};

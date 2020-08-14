@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { Button, Card, Col, Form, Input, Row } from 'antd';
+import { Button, Card, Col, Form, Input, notification, Row } from 'antd';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 
 import './LoginPage.css';
@@ -29,14 +29,33 @@ const LoginPage: React.FC = () => {
   const history = useHistory();
   const { setUser, setAuthenticated } = useAuthCtx();
   const [formValue, setFormValue] = useState<any>(initialForm);
+  const [formError, setFormError] = useState<any>();
 
   const onFinish = (data: any) => {
     setFormValue(data);
-    AuthService.login(data).then(res => {
-      setUser(res);
-      setAuthenticated(true);
-      history.push('/');
-    });
+    AuthService.login(data)
+      .then(res => {
+        setUser(res);
+        setAuthenticated(true);
+        history.push('/');
+      })
+      .catch(err => {
+        console.log('LoginPage.err: ', err);
+        const description = err.message;
+        switch (description) {
+          case 'Request failed with status code 400':
+            setFormError("Incorrect username or password");
+            break;
+          default:
+            setFormError(description);
+            break;
+        }
+        notification.error({
+          message: 'Error while login',
+          description,
+        });
+      });
+    console.log('formError: ', formError);
   };
 
   return (

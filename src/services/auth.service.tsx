@@ -1,10 +1,7 @@
 import AxiosService, { getUser, setAuth, setUser } from './axios.service';
-import { log } from './log.js';
 
 const LOGIN_URL = `/login`;
 const REGISTER_URL = `/register/`;
-
-const logger = log.getLogger("auth.service");
 
 const renderFormData = (data: any) => {
   const formData = new FormData();
@@ -26,7 +23,6 @@ const login = (body: any) => {
   return AxiosService.post(LOGIN_URL, formData)
     .then(response => response.data)
     .then((data) => {
-      logger.debug('login.data: ' + JSON.stringify(data));
       if (data) {
         setUser(data);
         setAuth(true);

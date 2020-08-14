@@ -14,7 +14,7 @@ const LogoutPage: React.FC = () => {
       setAuthenticated(false);
       history.push('/?logged-out');
     });
-  }, []);
+  }, [history, setUser, setAuthenticated]);
 
   return <></>;
 };

@@ -15,3 +15,10 @@ code {
 .ProgressPercent {
   margin: 20vh;
 }
+
+.scroll-container {
+  border: 1px solid #e8e8e8;
+  border-radius: 4px;
+  overflow: auto;
+  height: 1059px;
+}
