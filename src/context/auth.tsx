@@ -5,12 +5,15 @@ const AuthContext = createContext({});
 
 export const AuthProvider = memo((props: any) => {
   const [user, setUser] = useState({});
+  const [username, setUsername] = useState();
   const [authenticated, setAuthenticated] = useState(false);
   const value = {
     user,
     setUser,
     authenticated,
     setAuthenticated,
+    username, 
+    setUsername
   };
   useEffect(() => {
     setUser(getUser());
